@@ -181,5 +181,45 @@ angular.module('starter', ['ionic', 'ngCordova'])
 ```
 Running `ionic serve -lc` and `ionic run ios` still run with no errors. 
 
+Next I include the plugin:
 
+```sh
+$ cordova plugin add https://git-wip-us.apache.org/repos/asf/cordova-plugin-inappbrowser.git 
+Fetching plugin "https://git-wip-us.apache.org/repos/asf/cordova-plugin-inappbrowser.git" via git clone
+Repository "https://git-wip-us.apache.org/repos/asf/cordova-plugin-inappbrowser.git" checked out to git ref "master".
+Installing "cordova-plugin-inappbrowser" for ios
+```
+
+I then add a controller to my app:
+
+```js
+.controller('MyCtrl', function($scope, $cordovaOauth) {
+    $scope.instagramLogin = function() {
+        $cordovaOauth.instagram("CLIENT_ID_HERE", []).then(function(result) {
+           console.info('results', results);
+        }, function(error) {
+            console.info('error', error);
+        });
+    };
+    
+});
+
+```
+
+I then attach the controller to my index.html `<ion-content />` and create a button to run `$scope.instagramLogin()`:
+
+```html
+<ion-pane>
+  <ion-header-bar class="bar-stable">
+    <h1 class="title">Ionic Blank Starter</h1>
+  </ion-header-bar>
+  <ion-content ng-controller="MyCtrl">
+  	<button ng-click="instagramLogin()" class="button button-block button-positive">
+    	Log In with Instagram
+  	</button>
+  </ion-content>
+</ion-pane>
+```
+
+At this point, running the app via `ionic serve` will throw a warning when clicking the button. 
 

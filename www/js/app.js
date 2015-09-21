@@ -17,3 +17,15 @@ angular.module('starter', ['ionic', 'ngCordova'])
     }
   });
 })
+
+
+.controller('MyCtrl', function($scope, $cordovaOauth) {
+    $scope.instagramLogin = function() {
+        $cordovaOauth.instagram('changethis', ['basic']).then(function(result) {
+           console.log('results', results);
+        }, function(error) {
+            console.log('error', error);
+        });
+    };
+
+});
