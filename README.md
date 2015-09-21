@@ -107,6 +107,79 @@ Untracked files:
 	www/lib/ionic/scss/_split-pane.scss
 	www/lib/ionic/scss/ionicons/_ionicons-animation.scss
 	www/lib/ngCordova/
-	```
-	Running `ionic serve -lc` and `ionic run ios` still run with no errors.
+```
+Running `ionic serve -lc` and `ionic run ios` still run with no errors. 
+	
+As per the instructions on ngcordova.com
+```
+Include ng-cordova.js or ng-cordova.min.js in your index.html file before cordova.js and after your AngularJS / Ionic file (since ngCordova depends on AngularJS).
+```
+I modify my index.html file to look like so:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- adding ngCordova before cordova.js and after Angular -->
+    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+  </head>
+  <body ng-app="starter">
+
+    <ion-pane>
+      <ion-header-bar class="bar-stable">
+        <h1 class="title">Ionic Blank Starter</h1>
+      </ion-header-bar>
+      <ion-content>
+      </ion-content>
+    </ion-pane>
+  </body>
+</html>
+```
+Next I include ngCordova as a dependency in my angular app module like so:
+
+```js
+// Ionic Starter App
+
+// angular.module is a global place for creating, registering and retrieving Angular modules
+// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
+// the 2nd parameter is an array of 'requires'
+angular.module('starter', ['ionic', 'ngCordova'])
+
+.run(function($ionicPlatform) {
+  $ionicPlatform.ready(function() {
+    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+    // for form inputs)
+    if(window.cordova && window.cordova.plugins.Keyboard) {
+      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+    }
+    if(window.StatusBar) {
+      StatusBar.styleDefault();
+    }
+  });
+})
+
+```
+Running `ionic serve -lc` and `ionic run ios` still run with no errors. 
+
+
 
